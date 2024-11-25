@@ -1,12 +1,14 @@
 import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { RouterLink, RouterOutlet } from '@angular/router'; // Importa RouterLink e RouterOutlet
+import { WishlistComponent } from './wishlist/wishlist.component';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet],
+  standalone: true, // Componente standalone
+  imports: [RouterLink, RouterOutlet, WishlistComponent], // Aggiungi RouterOutlet per supportare il router
   templateUrl: './app.component.html',
-  styleUrl: './app.component.scss'
+  styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  title = 'secret-santa';
+  title = 'Secret Santa App';
 }

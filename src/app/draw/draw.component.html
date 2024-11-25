@@ -1,0 +1,19 @@
+<header>
+  <h1>🎅 Fai il Sorteggio del Secret Santa 🎅</h1>
+</header>
+
+<div class="draw-container">
+  <h2>Premi il bottone per eseguire il sorteggio!</h2>
+
+  <button class="draw-btn" (click)="drawGift()">Fai il Sorteggio</button>
+
+  <div class="result">
+    <p><strong>Risultato:</strong> <span id="winner">{{ result }}</span></p>
+  </div>
+</div>
+
+<div class="snowfall">
+  <div class="snowflake" style="left: 10%; animation-delay: 0s;">❄</div>
+  <div class="snowflake" style="left: 20%; animation-delay: 1s;">❄</div>
+  <div class="snowflake" style="left: 30%; animation-delay: 2s;">❄</div>
+</div>

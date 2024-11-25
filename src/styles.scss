@@ -1,1 +1,150 @@
-/* You can add global styles to this file, and also import other style files */
+/* styles.scss */
+
+/* Variabili per il tema natalizio */
+$primary-color: #ff4500;   // Rosso Natale
+$secondary-color: #008000; // Verde Natale
+$background-color: #f0f8ff; // Bianco neve
+$text-color: #333;         // Colore del testo
+$button-color: #ff6347;    // Colore pulsanti
+$button-hover-color: #ff4500; // Colore hover pulsanti
+$snowflake-size: 30px;     // Dimensione fiocco di neve
+$snowfall-speed: 5s;       // Velocità della neve
+
+/* Font e dimensioni generali */
+$font-family: 'Arial', sans-serif;
+$font-size: 1rem;
+$padding: 1rem;
+$margin: 1rem;
+
+/* Body e base */
+body {
+  font-family: $font-family;
+  background-color: $background-color;
+  color: $text-color;
+  margin: 0;
+  padding: 0;
+}
+
+/* Navbar */
+nav {
+  background-color: $primary-color;
+  padding: 10px;
+  a {
+    color: white;
+    text-decoration: none;
+    margin: 0 15px;
+    &.active {
+      text-decoration: underline;
+    }
+  }
+}
+
+/* Snowfall */
+.snowfall {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 9999;
+  .snowflake {
+    position: absolute;
+    top: -50px;
+    font-size: $snowflake-size;
+    color: white;
+    animation: fall $snowfall-speed linear infinite;
+    animation-delay: 0s;
+  }
+}
+
+/* Animazione della neve */
+@keyframes fall {
+  to {
+    transform: translateY(100vh);
+  }
+}
+
+/* Pulsante */
+button {
+  background-color: $button-color;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+  border-radius: 5px;
+  &:hover {
+    background-color: $button-hover-color;
+  }
+}
+
+/* Aggiungi stile per le diverse pagine */
+h1, h2 {
+  text-align: center;
+  color: $primary-color;
+}
+
+.wishlist-container, .login-container, .draw-container, .dashboard-container {
+  max-width: 600px;
+  margin: auto;
+  padding: $padding;
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+li {
+  margin: 10px 0;
+}
+
+.add-gift-btn {
+  background-color: $secondary-color;
+  color: white;
+  border-radius: 5px;
+}
+
+.result {
+  margin-top: 20px;
+  font-size: 1.2rem;
+}
+
+footer {
+  text-align: center;
+  margin-top: 50px;
+}
+
+/* Media Queries per dispositivi mobili e tablet */
+@media (max-width: 768px) {
+  nav {
+    text-align: center;
+    a {
+      display: block;
+      margin: 10px 0;
+    }
+  }
+
+  .wishlist-container, .login-container, .draw-container, .dashboard-container {
+    width: 90%; /* Riduce la larghezza per i dispositivi mobili */
+    padding: 15px;
+  }
+
+  .snowflake {
+    font-size: 20px; /* Riduce la dimensione dei fiocchi di neve per i dispositivi mobili */
+  }
+}
+
+@media (max-width: 480px) {
+  h1, h2 {
+    font-size: 1.2rem; /* Riduce la dimensione dei titoli sui dispositivi più piccoli */
+  }
+
+  button {
+    width: 100%; /* Fa sì che i pulsanti occupino tutta la larghezza */
+  }
+}
