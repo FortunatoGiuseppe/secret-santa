@@ -1,28 +1,23 @@
-// src/app/wishlist/wishlist.component.ts
-import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { HttpClientModule, HttpClient, HttpHeaders } from '@angular/common/http';
-import { AuthService } from '../services/auth.service';
 import { FirebaseService } from '../services/firebase.service';
+import { AuthService } from '../services/auth.service';
+import { FormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-wishlist',
   templateUrl: './wishlist.component.html',
   styleUrls: ['./wishlist.component.scss'],
-  standalone: true,
-  imports: [CommonModule, HttpClientModule]
+  imports: [FormsModule, CommonModule]
 })
 export class WishlistComponent implements OnInit {
-  private cloudName = 'dyphfsvio';
-  private uploadPreset = 'unsigned_preset';
-  private folderName = 'wishlist_images'; // Nome della cartella su Cloudinary
-  uploadedImageUrl: string | null = null;
+  uploadedImageUrl: string | null = null; // URL dell'immagine
+  letterContent: string = ''; // Contenuto della lettera
   userId: string | null = null;
 
   constructor(
-    private http: HttpClient,
-    private authService: AuthService,
-    private firebaseService: FirebaseService
+    private firebaseService: FirebaseService,
+    private authService: AuthService
   ) {}
 
   ngOnInit(): void {
@@ -30,57 +25,58 @@ export class WishlistComponent implements OnInit {
       if (user) {
         this.userId = user.uid;
         this.loadImageUrl();
+        this.loadLetterContent(); // Carica il contenuto della lettera se già esiste
       }
     });
   }
 
-  async loadImageUrl(): Promise<void> {
+  // Carica l'URL dell'immagine se presente
+  loadImageUrl(): void {
     if (this.userId) {
-      this.uploadedImageUrl = await this.firebaseService.getImageUrl(this.userId);
-    }
-  }
-
-  onFileSelected(event: any) {
-    const file: File = event.target.files[0];
-    if (file) {
-      this.uploadImage(file).then(url => {
-        this.uploadedImageUrl = url;
-        if (this.userId) {
-          this.firebaseService.saveImageUrl(this.userId, url);
-        }
-        console.log('Image uploaded successfully:', url);
-      }).catch(error => {
-        console.error('Error uploading image:', error);
-        console.error('Error details:', error.error);
+      this.firebaseService.getImageUrl(this.userId).then(url => {
+        this.uploadedImageUrl = url || null;  // Imposta URL immagine o null
       });
     }
   }
 
-  async uploadImage(file: File): Promise<string> {
-    const formData = new FormData();
-    formData.append('file', file);
-    formData.append('upload_preset', this.uploadPreset);
-    formData.append('folder', this.folderName); // Specifica la cartella di destinazione
-
-    const response = await this.http.post<any>(`https://api.cloudinary.com/v1_1/${this.cloudName}/image/upload`, formData).toPromise();
-    return response.secure_url;
-  }
-
-  async deleteImage(): Promise<void> {
-    if (this.uploadedImageUrl && this.userId) {
-      const publicId = this.getPublicIdFromUrl(this.uploadedImageUrl);
-      await this.http.post('/.netlify/functions/delete-image', { publicId }).toPromise();
-
-      this.uploadedImageUrl = null;
-      await this.firebaseService.saveImageUrl(this.userId, '');
-      console.log('Image deleted successfully');
+  // Carica il contenuto della lettera da Firestore se presente
+  loadLetterContent(): void {
+    if (this.userId) {
+      this.firebaseService.getLetterContent(this.userId).then(content => {
+        this.letterContent = content || ''; // Imposta il contenuto della lettera se esiste
+      });
     }
   }
 
-  private getPublicIdFromUrl(url: string): string {
-    const parts = url.split('/');
-    const lastPart = parts[parts.length - 1];
-    const publicId = lastPart.split('.')[0];
-    return publicId;
+  // Funzione per caricare una nuova immagine
+  onFileSelected(event: any): void {
+    const file: File = event.target.files[0];
+    if (file) {
+      this.uploadImage(file);
+    }
+  }
+
+  // Carica l'immagine su Firebase
+  async uploadImage(file: File): Promise<void> {
+    const url = await this.firebaseService.uploadImage(file);
+    this.uploadedImageUrl = url;
+    if (this.userId) {
+      this.firebaseService.saveImageUrl(this.userId, url);
+    }
+  }
+
+  // Elimina l'immagine
+  deleteImage(): void {
+    this.uploadedImageUrl = null;
+    if (this.userId) {
+      this.firebaseService.saveImageUrl(this.userId, '');
+    }
+  }
+
+  // Salva automaticamente il contenuto della lettera
+  saveLetter(): void {
+    if (this.userId) {
+      this.firebaseService.saveLetterContent(this.userId, this.letterContent);
+    }
   }
 }

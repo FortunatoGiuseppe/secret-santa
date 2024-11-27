@@ -1,26 +1,29 @@
 <header>
-  <h1>🎁 La tua Bacheca dei Regali 🎁</h1>
+  <h1>🎁 Lettera al mio Secret Santa 🎁</h1>
 </header>
 
 <div class="wishlist-container">
-  <h2>La tua lista dei desideri</h2>
-  
-  <ul>
-    <li>🎄 Giocattolo per il mio amico</li>
-    <li>🎅 Un libro di Natale</li>
-    <li>❄️ Calze calde</li>
-  </ul>
+  <h2>Caro mio Secret Santa, questa è la mia lettera.</h2>
 
-  <button class="add-gift-btn">Aggiungi un regalo</button>
-  
-  <!-- Input per il caricamento delle immagini -->
-  <input type="file" (change)="onFileSelected($event)" accept="image/*">
+  <!-- Box di testo per la lettera -->
+  <textarea *ngIf="!uploadedImageUrl" 
+            [(ngModel)]="letterContent" 
+            (ngModelChange)="saveLetter()" 
+            placeholder="Scrivi qui la tua lettera..." 
+            style="width: 100%; height: 150px; margin-bottom: 20px; resize: none;"></textarea>
 
   <!-- Visualizza l'immagine caricata -->
   <div *ngIf="uploadedImageUrl">
-    <h3>Immagine caricata:</h3>
-    <img [src]="uploadedImageUrl" alt="Uploaded Image" style="max-width: 100%; height: auto;">
-    <button (click)="deleteImage()">Elimina Immagine</button>
+    <img [src]="uploadedImageUrl" alt="Uploaded Image" style="max-width: 100%; height: auto; margin-bottom: 10px;">
+  </div>
+
+  <h3>Oppure scatta una foto alla tua lettera</h3>
+
+  <!-- Input per il caricamento delle immagini e pulsante per eliminarle -->
+  <div style="display: flex; justify-content: center; align-items: center; gap: 10px;">
+    <button (click)="imageUpload.click()" style="background-color: #4caf50; color: white; border: none; padding: 10px 20px; cursor: pointer; border-radius: 5px;">Carica Immagine</button>
+    <input #imageUpload type="file" (change)="onFileSelected($event)" accept="image/*" style="display: none;" />
+    <button *ngIf="uploadedImageUrl" (click)="deleteImage()" style="background-color: #ff6961; color: white; border: none; padding: 10px; cursor: pointer; border-radius: 5px;">Elimina Immagine</button>
   </div>
 </div>
 

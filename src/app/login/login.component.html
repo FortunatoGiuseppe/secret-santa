@@ -9,17 +9,28 @@
   <form (ngSubmit)="onLogin()">
     <label for="email">Email:</label>
     <input type="email" id="email" [(ngModel)]="email" name="email" placeholder="Inserisci la tua email" required>
+    
+    <!-- Aggiunto spazio tra i campi -->
+    <div style="margin-bottom: 5px;"></div>
 
-    <label for="password">Password:</label>
-    <input type="password" id="password" [(ngModel)]="password" name="password" placeholder="Inserisci la tua password" required>
+    <div class="password-container">
+      <label for="password">Password:</label>
+      <input [type]="passwordFieldType" id="password" [(ngModel)]="password" name="password" placeholder="Inserisci la tua password" required>
+      <button type="button" class="toggle-password-btn" (click)="togglePasswordVisibility()">👁️</button>
+    </div>
 
+        <!-- Aggiunto spazio tra i campi -->
+        <div style="margin-bottom: 10px;"></div> 
     <button type="submit" class="login-btn">Accedi</button>
   </form>
+  <div style="margin-bottom: 10px;"></div> 
 
   <div *ngIf="loginMessage">{{ loginMessage }}</div>
+  <a href="/register">Non sei ancora registrato? Registrati qui</a>
 </div>
 
 <div class="snowfall">
   <div class="snowflake" style="left: 10%; animation-delay: 0s;">❄</div>
   <div class="snowflake" style="left: 20%; animation-delay: 1s;">❄</div>
+  <div class="snowflake" style="left: 30%; animation-delay: 2s;">❄</div>
 </div>

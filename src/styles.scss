@@ -1,11 +1,10 @@
 /* styles.scss */
 
 /* Variabili per il tema natalizio */
-$primary-color: #ff4500;   // Rosso Natale
+$primary-color: #ff0000;   // Rosso Natale
 $secondary-color: #008000; // Verde Natale
-$background-color: #f0f8ff; // Bianco neve
 $text-color: #333;         // Colore del testo
-$button-color: #ff6347;    // Colore pulsanti
+$button-color: #ff0000;    // Colore pulsanti
 $button-hover-color: #ff4500; // Colore hover pulsanti
 $snowflake-size: 30px;     // Dimensione fiocco di neve
 $snowfall-speed: 5s;       // Velocità della neve
@@ -19,10 +18,19 @@ $margin: 1rem;
 /* Body e base */
 body {
   font-family: $font-family;
-  background-color: $background-color;
+  background-color: transparent;
   color: $text-color;
   margin: 0;
   padding: 0;
+  background-image: url('/assets/8.jpg'); /* Aggiungi un'immagine di sfondo natalizia */
+  background-size: cover;
+  background-attachment: fixed;
+}
+
+.register-link a {
+  display: inline-block; // Garantisce la visibilità
+  padding: 5px;          // Aggiunge spazio per cliccare
+  z-index: 100;
 }
 
 /* Navbar */
@@ -47,7 +55,7 @@ nav {
   width: 100%;
   height: 100%;
   pointer-events: none;
-  z-index: 9999;
+  z-index: 1;
   .snowflake {
     position: absolute;
     top: -50px;
@@ -79,19 +87,28 @@ button {
 }
 
 /* Aggiungi stile per le diverse pagine */
-h1, h2 {
+h1 {
   text-align: center;
   color: $primary-color;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2); /* Aggiungi un'ombra al testo */
 }
 
-.wishlist-container, .login-container, .draw-container, .dashboard-container, .register-container, {
+h2 {
+  text-align: center;
+  color: $secondary-color;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2); /* Aggiungi un'ombra al testo */
+}
+
+.wishlist-container, .login-container, .draw-container, .dashboard-container, .register-container {
   max-width: 600px;
   margin: auto;
   padding: $padding;
-  background-color: white;
+  background-color: rgba(255, 255, 255, 0.9); /* Sfondo semi-trasparente */
   border-radius: 10px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   text-align: center;
+  backdrop-filter: blur(10px); /* Aggiungi un effetto di sfocatura */
+  position: relative;
 }
 
 ul {
@@ -117,6 +134,28 @@ li {
 footer {
   text-align: center;
   margin-top: 50px;
+}
+
+/* Stile per il contenitore della password */
+.password-container {
+  position: relative;
+  align-items: center;
+}
+
+.password-container input {
+  flex: 1;
+  padding-right: 40px; /* Add padding to the right to make space for the button */
+}
+
+.toggle-password-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  padding: 0;
 }
 
 /* Media Queries per dispositivi mobili e tablet */
