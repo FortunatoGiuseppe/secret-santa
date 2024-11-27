@@ -4,6 +4,6 @@
         "NODE_ENV": "production"
       }
     },
-    "buildCommand": "npm install --legacy-peer-deps && npx ng build"
+    "buildCommand": "npm install --legacy-peer-deps && npm run build"
   }
   
