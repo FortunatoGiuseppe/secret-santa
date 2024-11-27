@@ -12,6 +12,16 @@
   </ul>
 
   <button class="add-gift-btn">Aggiungi un regalo</button>
+  
+  <!-- Input per il caricamento delle immagini -->
+  <input type="file" (change)="onFileSelected($event)" accept="image/*">
+
+  <!-- Visualizza l'immagine caricata -->
+  <div *ngIf="uploadedImageUrl">
+    <h3>Immagine caricata:</h3>
+    <img [src]="uploadedImageUrl" alt="Uploaded Image" style="max-width: 100%; height: auto;">
+    <button (click)="deleteImage()">Elimina Immagine</button>
+  </div>
 </div>
 
 <div class="snowfall">

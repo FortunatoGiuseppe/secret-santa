@@ -9,12 +9,14 @@
 
 <!-- Navbar per navigare tra le pagine -->
 <nav>
-  <a routerLink="/login" routerLinkActive="active">Login</a>
-  <a routerLink="/dashboard" routerLinkActive="active">Dashboard</a>
-  <a routerLink="/admin-panel" routerLinkActive="active">Admin Panel</a>
-  <a routerLink="/draw" routerLinkActive="active">Draw</a>
-  <a routerLink="/user-profile" routerLinkActive="active">User Profile</a>
-  <a routerLink="/wishlist" routerLinkActive="active">Wishlist</a>
+  <ng-container *ngIf="loggedInUser; else guestLinks">
+    <a routerLink="/dashboard" routerLinkActive="active">Dashboard</a>
+    <a (click)="logout()">Logout</a>
+  </ng-container>
+  <ng-template #guestLinks>
+    <a routerLink="/login" routerLinkActive="active">Login</a>
+    <a routerLink="/register" routerLinkActive="active">Register</a>
+  </ng-template>
 </nav>
 
 <!-- Qui verranno visualizzati i componenti in base alla rotta -->

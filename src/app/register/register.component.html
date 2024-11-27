@@ -1,22 +1,22 @@
 <header>
-  <h1>🎅 Accedi al tuo Secret Santa 🎅</h1>
+  <h1>🎅 Registrati al Secret Santa 2024 🎅</h1>
 </header>
 
-<div class="login-container">
-  <h2>Accedi per iniziare</h2>
+<div class="register-container">
+  <h2>Registrati</h2>
 
-  <!-- Un unico form per gestire il login -->
-  <form (ngSubmit)="onLogin()">
+  <!-- Un unico form per gestire la registrazione -->
+  <form (ngSubmit)="onRegister()">
     <label for="email">Email:</label>
     <input type="email" id="email" [(ngModel)]="email" name="email" placeholder="Inserisci la tua email" required>
 
     <label for="password">Password:</label>
     <input type="password" id="password" [(ngModel)]="password" name="password" placeholder="Inserisci la tua password" required>
 
-    <button type="submit" class="login-btn">Accedi</button>
+    <button type="submit" class="login-btn">Registrati</button>
   </form>
 
-  <div *ngIf="loginMessage">{{ loginMessage }}</div>
+  <div *ngIf="registerMessage">{{ registerMessage }}</div>
 </div>
 
 <div class="snowfall">

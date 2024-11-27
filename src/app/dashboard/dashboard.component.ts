@@ -1,19 +1,29 @@
 // src/app/dashboard/dashboard.component.ts
-
+import { CommonModule } from '@angular/common'; // Import CommonModule
 import { Component, OnInit } from '@angular/core';
 import { WishlistComponent } from "../wishlist/wishlist.component";
+import { AuthService } from '../services/auth.service'; // Importa AuthService
 
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss'],
-  imports: [WishlistComponent]
+  imports: [WishlistComponent, CommonModule]
 })
 export class DashboardComponent implements OnInit {
-  loggedInUser: string | undefined;
+  loggedInUser: string | null = null;
+
+  constructor(private authService: AuthService) {}
 
   ngOnInit(): void {
-    // Inizializzare la variabile loggedInUser con un valore di esempio (può venire da un servizio)
-    this.loggedInUser = 'Giovanni';  // Sostituisci con la logica di recupero dell'utente autenticato
+    // Osserva lo stato di autenticazione e aggiorna loggedInUser
+    this.authService.getLoggedInUser().subscribe(user => {
+      this.loggedInUser = user ? user.email : null;
+    });
+  }
+
+  // Funzione di logout
+  logout() {
+    this.authService.logout();
   }
 }
