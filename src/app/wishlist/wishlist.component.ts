@@ -69,7 +69,7 @@ export class WishlistComponent implements OnInit {
   async deleteImage(): Promise<void> {
     if (this.uploadedImageUrl && this.userId) {
       const publicId = this.getPublicIdFromUrl(this.uploadedImageUrl);
-      await this.http.post('https://YOUR_FIREBASE_PROJECT_ID.cloudfunctions.net/deleteImage', { public_id: publicId }).toPromise();
+      await this.http.post('https://YOUR_VERCEL_PROJECT_URL/api/delete-image', { publicId }).toPromise();
 
       this.uploadedImageUrl = null;
       await this.firebaseService.saveImageUrl(this.userId, '');
