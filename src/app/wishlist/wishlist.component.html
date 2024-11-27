@@ -6,11 +6,8 @@
   <h2>Caro mio Secret Santa, questa è la mia lettera.</h2>
 
   <!-- Box di testo per la lettera -->
-  <textarea *ngIf="!uploadedImageUrl" 
-            [(ngModel)]="letterContent" 
-            (ngModelChange)="saveLetter()" 
-            placeholder="Scrivi qui la tua lettera..." 
-            style="width: 100%; height: 150px; margin-bottom: 20px; resize: none;"></textarea>
+  <textarea [(ngModel)]="letterContent" (input)="saveLetter()" placeholder="Scrivi qui la tua lettera..." style="width: 100%; height: 150px; margin-bottom: 20px; resize: none;"></textarea>
+
 
   <!-- Visualizza l'immagine caricata -->
   <div *ngIf="uploadedImageUrl">

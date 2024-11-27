@@ -56,20 +56,20 @@ export class FirebaseService {
     }
   }
 
-  // Metodo per salvare il contenuto della lettera in Firestore
-  async saveLetterContent(userId: string, letterContent: string): Promise<void> {
-    const userDoc = doc(this.firestore, `users/${userId}`);
-    await setDoc(userDoc, { letterContent }, { merge: true });
-  }
-
-  // Metodo per recuperare il contenuto della lettera da Firestore
+  // Metodo per recuperare l'URL dell'immagine da Firestore
   async getLetterContent(userId: string): Promise<string | null> {
-    const userDoc = doc(this.firestore, `users/${userId}`);
+    const userDoc = doc(this.firestore, `letter/${userId}`);
     const docSnap = await getDoc(userDoc);
     if (docSnap.exists()) {
       return docSnap.data()['letterContent'] || null;
     } else {
       return null;
     }
+  }
+
+  // Metodo per salvare il contenuto della lettera in Firestore
+  async saveLetterContent(userId: string, letterContent: string): Promise<void> {
+    const userDoc = doc(this.firestore, `letter/${userId}`);
+    await setDoc(userDoc, { letterContent }, { merge: true });
   }
 }
