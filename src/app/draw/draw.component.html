@@ -10,6 +10,15 @@
   <div class="result">
     <p><strong>Risultato:</strong> <span id="winner">{{ result }}</span></p>
   </div>
+
+  <div class="assignments">
+    <h3>Assegnazioni:</h3>
+    <ul>
+      <li *ngFor="let assignment of assignments">
+        {{ assignment.giver }} → {{ assignment.receiver }}
+      </li>
+    </ul>
+  </div>
 </div>
 
 <div class="snowfall">
