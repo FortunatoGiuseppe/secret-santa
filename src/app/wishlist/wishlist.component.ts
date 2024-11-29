@@ -22,6 +22,8 @@ export class WishlistComponent implements OnInit {
   userId: string | null = null; // ID dell'utente corrente
   letterContent: string | null = null; // Contenuto della lettera
   assignedUserEmail: string | null = null; // Email dell'utente assegnato
+  assignedUserLetter: string | null = null; // Lettera dell'utente assegnato
+  assignedUserImageUrl: string | null = null; // URL dell'immagine dell'utente assegnato
 
   constructor(
     private http: HttpClient,
@@ -115,6 +117,8 @@ export class WishlistComponent implements OnInit {
         const assignedUser = await this.firebaseService.getUserById(assignment.receiver);
         if (assignedUser) {
           this.assignedUserEmail = assignedUser.email;
+          this.assignedUserLetter = await this.firebaseService.getLetterContent(assignment.receiver);
+          this.assignedUserImageUrl = await this.firebaseService.getImageUrl(assignment.receiver);
         }
       } else {
         this.assignedUserEmail = 'Nessun abbinamento trovato.';

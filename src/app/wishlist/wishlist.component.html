@@ -26,6 +26,18 @@
   <div *ngIf="assignedUserEmail" style="margin-top: 20px;">
     <h3>Sei il Secret Santa di:</h3>
     <p>{{ assignedUserEmail }}</p>
+
+    <!-- Visualizza la lettera dell'utente assegnato -->
+    <div *ngIf="assignedUserLetter" style="margin-top: 20px;">
+      <h4>Lettera di {{ assignedUserEmail }}:</h4>
+      <p>{{ assignedUserLetter }}</p>
+    </div>
+
+    <!-- Visualizza l'immagine dell'utente assegnato -->
+    <div *ngIf="assignedUserImageUrl" style="margin-top: 20px;">
+      <h4>Immagine di {{ assignedUserEmail }}:</h4>
+      <img [src]="assignedUserImageUrl" alt="Assigned User Image" style="max-width: 100%; height: auto;">
+    </div>
   </div>
 </div>
 
