@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { initializeApp, FirebaseApp } from 'firebase/app';
 import { getAuth, Auth } from 'firebase/auth';
 import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage';
-import { getFirestore, Firestore, doc, setDoc, getDoc } from 'firebase/firestore';
+import { getFirestore, Firestore, doc, setDoc, getDoc, collection, getDocs } from 'firebase/firestore';
 
 const firebaseConfig = {
   apiKey: "AIzaSyAUDBK7pFdmxQJrbPmHtMSBvxXv6Y2eLag",
@@ -24,8 +24,8 @@ export class FirebaseService {
   firestore: Firestore;
 
   constructor() {
-    this.firebaseApp = initializeApp(firebaseConfig);  // Inizializza Firebase
-    this.auth = getAuth(this.firebaseApp);  // Ottieni l'istanza dell'autenticazione
+    this.firebaseApp = initializeApp(firebaseConfig); // Inizializza Firebase
+    this.auth = getAuth(this.firebaseApp); // Ottieni l'istanza dell'autenticazione
     this.storage = getStorage(this.firebaseApp); // Ottieni l'istanza di Firebase Storage
     this.firestore = getFirestore(this.firebaseApp); // Ottieni l'istanza di Firestore
     console.log('Firebase initialized', this.firebaseApp.name, this.auth);
@@ -56,7 +56,7 @@ export class FirebaseService {
     }
   }
 
-  // Metodo per recuperare l'URL dell'immagine da Firestore
+  // Metodo per recuperare il contenuto della lettera da Firestore
   async getLetterContent(userId: string): Promise<string | null> {
     const userDoc = doc(this.firestore, `letter/${userId}`);
     const docSnap = await getDoc(userDoc);
@@ -71,5 +71,31 @@ export class FirebaseService {
   async saveLetterContent(userId: string, letterContent: string): Promise<void> {
     const userDoc = doc(this.firestore, `letter/${userId}`);
     await setDoc(userDoc, { letterContent }, { merge: true });
+  }
+
+  // Nuovo: Ottieni tutti gli utenti registrati
+  async getUsers(): Promise<string[]> {
+    const usersCollection = collection(this.firestore, 'users');
+    const snapshot = await getDocs(usersCollection);
+    return snapshot.docs.map(doc => doc.id); // Ritorna solo gli ID degli utenti
+  }
+
+  // Nuovo: Salva gli abbinamenti Secret Santa in Firestore
+  async saveAssignments(assignments: Record<string, string>): Promise<void> {
+    const batchPromises = Object.entries(assignments).map(([giver, receiver]) => {
+      const assignmentDoc = doc(this.firestore, `assignments/${giver}`);
+      return setDoc(assignmentDoc, { receiver });
+    });
+    await Promise.all(batchPromises);
+  }
+
+  // Nuovo: Recupera l'abbinamento di un utente specifico
+  async getAssignment(userId: string): Promise<{ receiver: string } | null> {
+    const assignmentDoc = doc(this.firestore, `assignments/${userId}`);
+    const docSnap = await getDoc(assignmentDoc);
+    if (docSnap.exists()) {
+      return docSnap.data() as { receiver: string };
+    }
+    return null;
   }
 }
