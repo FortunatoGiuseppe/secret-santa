@@ -56,7 +56,6 @@ export class WishlistComponent implements OnInit {
       this.firebaseService.saveLetterContent(this.userId, this.letterContent);
     }
   }
-  
 
   // Gestisce il caricamento di un file
   onFileSelected(event: any): void {
@@ -111,5 +110,15 @@ export class WishlistComponent implements OnInit {
     const fileInput = document.getElementById('imageUpload') as HTMLInputElement;
     fileInput.click();
   }
-  
+
+  async loadAssignedUser(): Promise<void> {
+    if (this.userId) {
+      const assignment = await this.firebaseService.getAssignment(this.userId);
+      if (assignment) {
+        alert(`Sei il Secret Santa di: ${assignment.receiver}`);
+      } else {
+        alert('Nessun abbinamento trovato.');
+      }
+    }
+  }
 }

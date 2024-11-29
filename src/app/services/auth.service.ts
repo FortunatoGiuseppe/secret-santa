@@ -1,3 +1,4 @@
+// src/app/services/auth.service.ts
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Auth, signInWithEmailAndPassword, signOut, onAuthStateChanged, createUserWithEmailAndPassword, User } from 'firebase/auth';
@@ -10,17 +11,17 @@ import { HttpClient } from '@angular/common/http';
 })
 export class AuthService {
   private loggedInUser: BehaviorSubject<User | null> = new BehaviorSubject<User | null>(null);
-  private netlifyUrl = 'https://<tuo-sito-netlify>.netlify.app/.netlify/functions/get-users';
+  private netlifyUrl = 'https://tubular-praline-980e23.netlify.app/.netlify/functions/get-users';
 
-  constructor(private router: Router, private firebaseService: FirebaseService, private http:HttpClient) {
+  constructor(private router: Router, private firebaseService: FirebaseService, private http: HttpClient) {
     // Osserva i cambiamenti nello stato di autenticazione
     this.observeAuthState();
   }
 
-// Recupera la lista degli utenti
-getUsers(): Observable<any[]> {
-  return this.http.get<any[]>(this.netlifyUrl);
-}
+  // Recupera la lista degli utenti
+  getUsers(): Observable<any[]> {
+    return this.http.get<any[]>(this.netlifyUrl);
+  }
 
   // Login dell'utente
   async login(email: string, password: string): Promise<boolean> {

@@ -1,13 +1,15 @@
+// src/app/app.component.ts
 import { Component, OnInit } from '@angular/core';
 import { Router, RouterLink, RouterOutlet } from '@angular/router'; // Importa RouterLink e RouterOutlet
 import { CommonModule } from '@angular/common'; // Import CommonModule
 import { FormsModule } from '@angular/forms';  // Importa FormsModule
 import { AuthService } from './services/auth.service'; // Importa AuthService
+import { HttpClientModuleStandalone } from './http-client.module';
 
 @Component({
   selector: 'app-root',
   standalone: true, // Componente standalone
-  imports: [RouterLink, RouterOutlet, CommonModule, FormsModule], // Aggiungi RouterOutlet per supportare il router
+  imports: [RouterLink, RouterOutlet, CommonModule, FormsModule, HttpClientModuleStandalone], // Aggiungi RouterOutlet per supportare il router
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })

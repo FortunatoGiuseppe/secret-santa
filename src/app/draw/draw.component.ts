@@ -1,8 +1,13 @@
+// src/app/draw/draw.component.ts
 import { Component } from '@angular/core';
 import { FirebaseService } from '../services/firebase.service';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-draw',
+  standalone: true,
+  imports: [CommonModule], // Aggiungi CommonModule per funzioni comuni
+  providers: [FirebaseService], // Aggiungi FirebaseService ai provider
   templateUrl: './draw.component.html',
   styleUrls: ['./draw.component.scss']
 })
@@ -12,8 +17,8 @@ export class DrawComponent {
   constructor(private firebaseService: FirebaseService) {}
 
   async drawGift(): Promise<void> {
-    const users = await this.firebaseService.getUsers(); // Ottieni la lista di utenti
-    console.log(users)
+    const users = await this.firebaseService.getUsers().toPromise(); // Ottieni la lista di utenti
+    console.log(users);
     if (!users || users.length < 2) {
       alert('Servono almeno 2 utenti per il sorteggio!');
       return;
@@ -37,10 +42,10 @@ export class DrawComponent {
       .map(({ value }) => value);
   }
 
-  assignSecretSanta(users: string[], shuffled: string[]): Record<string, string> {
+  assignSecretSanta(users: any[], shuffled: any[]): Record<string, string> {
     const assignments: Record<string, string> = {};
     for (let i = 0; i < users.length; i++) {
-      assignments[users[i]] = shuffled[i];
+      assignments[users[i].uid] = shuffled[i].uid;
     }
     return assignments;
   }

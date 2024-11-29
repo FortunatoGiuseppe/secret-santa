@@ -1,8 +1,11 @@
+// src/app/services/firebase.service.ts
 import { Injectable } from '@angular/core';
 import { initializeApp, FirebaseApp } from 'firebase/app';
 import { getAuth, Auth } from 'firebase/auth';
 import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import { getFirestore, Firestore, doc, setDoc, getDoc, collection, getDocs } from 'firebase/firestore';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
 
 const firebaseConfig = {
   apiKey: "AIzaSyAUDBK7pFdmxQJrbPmHtMSBvxXv6Y2eLag",
@@ -22,13 +25,19 @@ export class FirebaseService {
   auth: Auth;
   storage: any;
   firestore: Firestore;
+  private netlifyUrl = '/.netlify/functions/get-users'; // URL della funzione Netlify
 
-  constructor() {
+  constructor(private http: HttpClient) {
     this.firebaseApp = initializeApp(firebaseConfig); // Inizializza Firebase
     this.auth = getAuth(this.firebaseApp); // Ottieni l'istanza dell'autenticazione
     this.storage = getStorage(this.firebaseApp); // Ottieni l'istanza di Firebase Storage
     this.firestore = getFirestore(this.firebaseApp); // Ottieni l'istanza di Firestore
     console.log('Firebase initialized', this.firebaseApp.name, this.auth);
+  }
+
+  // Metodo per ottenere gli utenti autenticati tramite la funzione Netlify
+  getUsers(): Observable<any[]> {
+    return this.http.get<any[]>(this.netlifyUrl);
   }
 
   // Metodo per caricare le immagini su Firebase Storage
@@ -71,13 +80,6 @@ export class FirebaseService {
   async saveLetterContent(userId: string, letterContent: string): Promise<void> {
     const userDoc = doc(this.firestore, `letter/${userId}`);
     await setDoc(userDoc, { letterContent }, { merge: true });
-  }
-
-  // Nuovo: Ottieni tutti gli utenti registrati
-  async getUsers(): Promise<string[]> {
-    const usersCollection = collection(this.firestore, 'users');
-    const snapshot = await getDocs(usersCollection);
-    return snapshot.docs.map(doc => doc.id); // Ritorna solo gli ID degli utenti
   }
 
   // Nuovo: Salva gli abbinamenti Secret Santa in Firestore
