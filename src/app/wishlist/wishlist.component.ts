@@ -20,7 +20,8 @@ export class WishlistComponent implements OnInit {
 
   uploadedImageUrl: string | null = null; // URL dell'immagine caricata
   userId: string | null = null; // ID dell'utente corrente
-  letterContent: string | null = null;// Contenuto della lettera
+  letterContent: string | null = null; // Contenuto della lettera
+  assignedUserEmail: string | null = null; // Email dell'utente assegnato
 
   constructor(
     private http: HttpClient,
@@ -34,6 +35,7 @@ export class WishlistComponent implements OnInit {
         this.userId = user.uid;
         this.loadImageUrl();
         this.loadLetterUrl();
+        this.loadAssignedUser();
       }
     });
   }
@@ -106,18 +108,16 @@ export class WishlistComponent implements OnInit {
     return publicId;
   }
 
-  triggerFileInput(): void {
-    const fileInput = document.getElementById('imageUpload') as HTMLInputElement;
-    fileInput.click();
-  }
-
   async loadAssignedUser(): Promise<void> {
     if (this.userId) {
       const assignment = await this.firebaseService.getAssignment(this.userId);
       if (assignment) {
-        alert(`Sei il Secret Santa di: ${assignment.receiver}`);
+        const assignedUser = await this.firebaseService.getUserById(assignment.receiver);
+        if (assignedUser) {
+          this.assignedUserEmail = assignedUser.email;
+        }
       } else {
-        alert('Nessun abbinamento trovato.');
+        this.assignedUserEmail = 'Nessun abbinamento trovato.';
       }
     }
   }

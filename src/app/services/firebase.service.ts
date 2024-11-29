@@ -40,6 +40,12 @@ export class FirebaseService {
     return this.http.get<any[]>(this.netlifyUrl);
   }
 
+  // Metodo per ottenere un utente per ID
+  async getUserById(userId: string): Promise<any | null> {
+    const users = await this.getUsers().toPromise();
+    return users ? users.find(user => user.uid === userId) : null;
+  }
+
   // Metodo per caricare le immagini su Firebase Storage
   async uploadImage(file: File): Promise<string> {
     const storageRef = ref(this.storage, `images/${file.name}`);
