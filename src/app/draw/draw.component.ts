@@ -47,16 +47,25 @@ export class DrawComponent implements OnInit {
       return;
     }
 
-    const shuffled = this.shuffleArray(users); // Mescola l'array
-    const assignments = this.assignSecretSanta(users, shuffled); // Assegna i nomi
+    let assignments: Record<string, string> | undefined;
+    let validAssignments = false;
 
-    try {
-      await this.firebaseService.saveAssignments(assignments); // Salva nel database
-      alert('Sorteggio completato con successo!');
-      this.loadAssignment(); // Carica l'assegnazione per l'utente corrente
-      this.loadAllAssignments(); // Carica tutte le assegnazioni
-    } catch (error) {
-      console.error('Errore durante il salvataggio:', error);
+    // Continua a mescolare e assegnare finché non otteniamo una distribuzione valida
+    while (!validAssignments) {
+      const shuffled = this.shuffleArray(users); // Mescola l'array
+      assignments = this.assignSecretSanta(users, shuffled); // Assegna i nomi
+      validAssignments = this.validateAssignments(assignments, users);
+    }
+
+    if (assignments) {
+      try {
+        await this.firebaseService.saveAssignments(assignments); // Salva nel database
+        alert('Sorteggio completato con successo!');
+        this.loadAssignment(); // Carica l'assegnazione per l'utente corrente
+        this.loadAllAssignments(); // Carica tutte le assegnazioni
+      } catch (error) {
+        console.error('Errore durante il salvataggio:', error);
+      }
     }
   }
 
@@ -93,5 +102,14 @@ export class DrawComponent implements OnInit {
       assignments[users[i].uid] = shuffled[i].uid;
     }
     return assignments;
+  }
+
+  validateAssignments(assignments: Record<string, string>, users: any[]): boolean {
+    for (let i = 0; i < users.length; i++) {
+      if (users[i].uid === assignments[users[i].uid]) {
+        return false; // Un utente è stato assegnato a se stesso
+      }
+    }
+    return true; // Tutte le assegnazioni sono valide
   }
 }
