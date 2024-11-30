@@ -26,6 +26,7 @@ export class WishlistComponent implements OnInit {
   assignedUserLetter: string | null = null; // Lettera dell'utente assegnato
   assignedUserImageUrl: string | null = null; // URL dell'immagine dell'utente assegnato
   assignedUserName: string | null = null; // Nome dell'utente assegnato
+  private dialogShown: boolean = false; // Flag per tenere traccia se il dialogo è stato mostrato
 
   constructor(
     private http: HttpClient,
@@ -41,7 +42,10 @@ export class WishlistComponent implements OnInit {
         this.loadImageUrl();
         this.loadLetterUrl();
         this.loadAssignedUser();
-        this.checkAndPromptForUserName(user.uid); // Controlla e richiedi il nome dell'utente se non presente
+        if (!this.dialogShown) {
+          this.checkAndPromptForUserName(user.uid); // Controlla e richiedi il nome dell'utente se non presente
+          this.dialogShown = true; // Imposta il flag a true dopo aver mostrato il dialogo
+        }
       }
     });
   }
@@ -136,7 +140,6 @@ export class WishlistComponent implements OnInit {
     const userName = await this.firebaseService.getUserName(userId);
     if (!userName) {
       const dialogRef = this.dialog.open(NameDialogComponent, {
-        width: '250px'
       });
 
       dialogRef.afterClosed().subscribe(async (name) => {
