@@ -1,32 +1,34 @@
-<header>
+<header class="text-center my-4">
   <h1>🎅 Accedi al tuo Secret Santa 🎅</h1>
 </header>
 
-<div class="login-container">
-  <h2>Accedi per iniziare</h2>
+<div class="login-container container">
+  <h2 class="text-center">Accedi per iniziare</h2>
 
   <!-- Un unico form per gestire il login -->
   <form (ngSubmit)="onLogin()">
-    <label for="email">Email:</label>
-    <input type="email" id="email" [(ngModel)]="email" name="email" placeholder="Inserisci la tua email" required>
-    
-    <!-- Aggiunto spazio tra i campi -->
-    <div style="margin-bottom: 5px;"></div>
-
-    <div class="password-container">
-      <label for="password">Password:</label>
-      <input [type]="passwordFieldType" id="password" [(ngModel)]="password" name="password" placeholder="Inserisci la tua password" required>
-      <button type="button" class="toggle-password-btn" (click)="togglePasswordVisibility()">👁️</button>
+    <div class="form-group">
+      <label for="email">Email:</label>
+      <input type="email" id="email" [(ngModel)]="email" name="email" placeholder="Inserisci la tua email" class="form-control" required>
     </div>
 
-        <!-- Aggiunto spazio tra i campi -->
-        <div style="margin-bottom: 10px;"></div> 
-    <button type="submit" class="login-btn">Accedi</button>
-  </form>
-  <div style="margin-bottom: 10px;"></div> 
+    <div class="form-group password-container">
+      <label for="password">Password:</label>
+      <div class="input-group">
+        <input [type]="passwordFieldType" id="password" [(ngModel)]="password" name="password" placeholder="Inserisci la tua password" class="form-control" required>
+        <div class="input-group-append">
+          <button type="button" class="btn btn-outline-secondary toggle-password-btn" (click)="togglePasswordVisibility()">
+            <i [ngClass]="passwordFieldType === 'password' ? 'bi bi-eye-slash' : 'bi bi-eye'"></i>
+          </button>
+        </div>
+      </div>
+    </div>
 
-  <div *ngIf="loginMessage">{{ loginMessage }}</div>
-  <a href="/register">Non sei ancora registrato? Registrati qui</a>
+    <button type="submit" class="btn btn-success btn-block">Accedi</button>
+  </form>
+
+  <div *ngIf="loginMessage" class="alert alert-info mt-3">{{ loginMessage }}</div>
+  <a href="/register" class="register-link d-block text-center mt-3">Non sei ancora registrato? Registrati qui</a>
 </div>
 
 <div class="snowfall">

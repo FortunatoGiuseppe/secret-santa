@@ -15,7 +15,7 @@ export const routes: Routes = [
   { path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard] },
   { path: 'register', component: RegisterComponent },
   { path: 'admin-panel', component: AdminPanelComponent },
-  { path: 'draw', component: DrawComponent },
+  { path: 'sorteggio2024', component: DrawComponent },
   { path: 'user-profile', component: UserProfileComponent },
   { path: 'wishlist', component: WishlistComponent },
 ];

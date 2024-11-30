@@ -1,42 +1,44 @@
-<header>
+<header class="text-center my-4">
   <h1>🎁 Lettera al mio Secret Santa 🎁</h1>
 </header>
 
-<div class="wishlist-container">
-  <h2>Caro mio Secret Santa, questa è la mia lettera.</h2>
+<div class="wishlist-container container">
+  <h2 class="text-center">Caro mio Secret Santa, questa è la mia lettera.</h2>
 
   <!-- Box di testo per la lettera -->
-  <textarea [(ngModel)]="letterContent" (input)="saveLetter()" placeholder="Scrivi qui la tua lettera..." style="width: 100%; height: 150px; margin-bottom: 20px; resize: none;"></textarea>
-
-  <!-- Visualizza l'immagine caricata -->
-  <div *ngIf="uploadedImageUrl">
-    <img [src]="uploadedImageUrl" alt="Uploaded Image" style="max-width: 100%; height: auto; margin-bottom: 10px;">
+  <div class="form-group">
+    <textarea [(ngModel)]="letterContent" (input)="saveLetter()" placeholder="Scrivi qui la tua lettera..." class="form-control letter-textarea resizable"></textarea>
   </div>
 
-  <h3>Oppure scatta una foto alla tua lettera</h3>
+  <!-- Visualizza l'immagine caricata -->
+  <div *ngIf="uploadedImageUrl" class="uploaded-image-container text-center">
+    <img [src]="uploadedImageUrl" alt="Uploaded Image" class="uploaded-image img-fluid mb-3">
+  </div>
+
+  <h3 class="text-center">Oppure scatta una foto alla tua lettera</h3>
 
   <!-- Input per il caricamento delle immagini e pulsante per eliminarle -->
-  <div style="display: flex; justify-content: center; align-items: center; gap: 10px;">
-    <button (click)="imageUpload.click()" style="background-color: #4caf50; color: white; border: none; padding: 10px 20px; cursor: pointer; border-radius: 5px;">Carica Immagine</button>
+  <div class="image-upload-container text-center">
+    <button (click)="imageUpload.click()" class="btn btn-success">Carica Immagine</button>
     <input #imageUpload type="file" (change)="onFileSelected($event)" accept="image/*" style="display: none;" />
-    <button *ngIf="uploadedImageUrl" (click)="deleteImage()" style="background-color: #ff6961; color: white; border: none; padding: 10px; cursor: pointer; border-radius: 5px;">Elimina Immagine</button>
+    <button *ngIf="uploadedImageUrl" (click)="deleteImage()" class="btn btn-danger ml-2">Elimina Immagine</button>
   </div>
 
   <!-- Visualizza l'assegnazione dell'utente corrente -->
-  <div *ngIf="assignedUserEmail" style="margin-top: 20px;">
-    <h3>Sei il Secret Santa di:</h3>
-    <p>{{ assignedUserEmail }}</p>
+  <div *ngIf="assignedUserEmail" class="assigned-user-container mt-4">
+    <h3 class="text-center">Sei il Secret Santa di:</h3>
+    <p class="text-center">{{ assignedUserEmail }}</p>
 
     <!-- Visualizza la lettera dell'utente assegnato -->
-    <div *ngIf="assignedUserLetter" style="margin-top: 20px;">
-      <h4>Lettera di {{ assignedUserEmail }}:</h4>
+    <div *ngIf="assignedUserLetter" class="assigned-user-letter mt-3">
+      <h4 class="text-center">Lettera di {{ assignedUserEmail }}:</h4>
       <p>{{ assignedUserLetter }}</p>
     </div>
 
     <!-- Visualizza l'immagine dell'utente assegnato -->
-    <div *ngIf="assignedUserImageUrl" style="margin-top: 20px;">
+    <div *ngIf="assignedUserImageUrl" class="assigned-user-image mt-3 text-center">
       <h4>Immagine di {{ assignedUserEmail }}:</h4>
-      <img [src]="assignedUserImageUrl" alt="Assigned User Image" style="max-width: 100%; height: auto;">
+      <img [src]="assignedUserImageUrl" alt="Assigned User Image" class="assigned-image img-fluid">
     </div>
   </div>
 </div>

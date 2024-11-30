@@ -1,36 +1,45 @@
-<header>
+<header class="text-center my-4">
   <h1>🎅 Registrati al Secret Santa 2024 🎅</h1>
 </header>
 
-<div class="register-container">
-  <h2>Registrati</h2>
+<div class="register-container container">
+  <h2 class="text-center">Registrati</h2>
 
   <!-- Un unico form per gestire la registrazione -->
   <form (ngSubmit)="onRegister()">
-    <label for="email">Email:</label>
-    <input type="email" id="email" [(ngModel)]="email" name="email" placeholder="Inserisci la tua email" required>
-    <div style="margin-bottom: 5px;"></div> 
+    <div class="form-group">
+      <label for="email">Email:</label>
+      <input type="email" id="email" [(ngModel)]="email" name="email" placeholder="Inserisci la tua email" class="form-control" required>
+    </div>
 
-    <div class="password-container">
+    <div class="form-group password-container">
       <label for="password">Password:</label>
-      <input [type]="passwordFieldType" id="password" [(ngModel)]="password" name="password" placeholder="Inserisci la tua password" required>
-      <button type="button" class="toggle-password-btn" (click)="togglePasswordVisibility()">👁️</button>
+      <div class="input-group">
+        <input [type]="passwordFieldType" id="password" [(ngModel)]="password" name="password" placeholder="Inserisci la tua password" class="form-control" required>
+        <div class="input-group-append">
+          <button type="button" class="btn btn-outline-secondary toggle-password-btn" (click)="togglePasswordVisibility()">
+            <i [ngClass]="passwordFieldType === 'password' ? 'bi bi-eye-slash' : 'bi bi-eye'"></i>
+          </button>
+        </div>
+      </div>
     </div>
-    <div style="margin-bottom: 5px;"></div> 
 
-    <div class="password-container">
+    <div class="form-group password-container">
       <label for="confirmPassword">Conferma Password:</label>
-      <input [type]="passwordFieldType" id="confirmPassword" [(ngModel)]="confirmPassword" name="confirmPassword" placeholder="Conferma la tua password" required>
-      <button type="button" class="toggle-password-btn" (click)="togglePasswordVisibility()">👁️</button>
+      <div class="input-group">
+        <input [type]="passwordFieldType" id="confirmPassword" [(ngModel)]="confirmPassword" name="confirmPassword" placeholder="Conferma la tua password" class="form-control" required>
+        <div class="input-group-append">
+          <button type="button" class="btn btn-outline-secondary toggle-password-btn" (click)="togglePasswordVisibility()">
+            <i [ngClass]="passwordFieldType === 'password' ? 'bi bi-eye-slash' : 'bi bi-eye'"></i>
+          </button>
+        </div>
+      </div>
     </div>
-    <div style="margin-bottom: 10px;"></div> 
 
-    <button type="submit" class="login-btn">Registrati</button>
+    <button type="submit" class="btn btn-success btn-block">Registrati</button>
   </form>
 
-  <div style="margin-bottom: 10px;"></div> 
-
-  <div *ngIf="registerMessage">{{ registerMessage }}</div>
+  <div *ngIf="registerMessage" class="alert alert-info mt-3">{{ registerMessage }}</div>
 </div>
 
 <div class="snowfall">
