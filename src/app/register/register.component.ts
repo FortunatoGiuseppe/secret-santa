@@ -12,6 +12,7 @@ import { FormsModule } from '@angular/forms';  // Importa FormsModule
   imports: [CommonModule, FormsModule],
 })
 export class RegisterComponent {
+  name: string = '';
   email: string = '';
   password: string = '';
   confirmPassword: string = '';
@@ -37,7 +38,7 @@ export class RegisterComponent {
       return;
     }
 
-    const success = await this.authService.register(this.email, this.password);
+    const success = await this.authService.register(this.email, this.password, this.name);
     if (success) {
       this.registerMessage = 'Registrazione avvenuta!';
       this.router.navigate(['/dashboard']);

@@ -1,4 +1,3 @@
-// src/app/services/firebase.service.ts
 import { Injectable } from '@angular/core';
 import { initializeApp, FirebaseApp } from 'firebase/app';
 import { getAuth, Auth } from 'firebase/auth';
@@ -105,5 +104,22 @@ export class FirebaseService {
       return docSnap.data() as { receiver: string };
     }
     return null;
+  }
+
+  // Metodo per salvare il nome dell'utente in Firestore
+  async saveUserName(userId: string, name: string): Promise<void> {
+    const userDoc = doc(this.firestore, `users/${userId}`);
+    await setDoc(userDoc, { name }, { merge: true });
+  }
+
+  // Metodo per recuperare il nome dell'utente da Firestore
+  async getUserName(userId: string): Promise<string | null> {
+    const userDoc = doc(this.firestore, `users/${userId}`);
+    const docSnap = await getDoc(userDoc);
+    if (docSnap.exists()) {
+      return docSnap.data()['name'] || null;
+    } else {
+      return null;
+    }
   }
 }

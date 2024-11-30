@@ -4,7 +4,8 @@ import { provideRouter } from '@angular/router';
 import { routes } from './app.routes';
 import { AuthService } from './services/auth.service';  // Aggiungi i servizi necessari
 import { FirebaseService } from './services/firebase.service';  // Aggiungi i servizi necessari
-import { HttpClientModuleStandalone } from './http-client.module'; // Importa il modulo standalone
+import { HttpClientModuleStandalone } from './http-client.module';
+import { provideAnimationsAsync } from '@angular/platform-browser/animations/async'; // Importa il modulo standalone
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -16,6 +17,6 @@ export const appConfig: ApplicationConfig = {
     FirebaseService,
 
     // Importa il modulo standalone per HttpClientModule
-    importProvidersFrom(HttpClientModuleStandalone)
+    importProvidersFrom(HttpClientModuleStandalone), provideAnimationsAsync()
   ]
 };

@@ -7,7 +7,7 @@
 
   <!-- Box di testo per la lettera -->
   <div class="form-group">
-    <textarea [(ngModel)]="letterContent" (input)="saveLetter()" placeholder="Scrivi qui la tua lettera..." class="form-control letter-textarea resizable"></textarea>
+    <textarea [(ngModel)]="letterContent" (input)="saveLetter()" placeholder="Scrivi qui la tua lettera..." class="form-control letter-textarea"></textarea>
   </div>
 
   <!-- Visualizza l'immagine caricata -->
@@ -25,19 +25,19 @@
   </div>
 
   <!-- Visualizza l'assegnazione dell'utente corrente -->
-  <div *ngIf="assignedUserEmail" class="assigned-user-container mt-4">
+  <div *ngIf="assignedUserName || assignedUserEmail" class="assigned-user-container mt-4">
     <h3 class="text-center">Sei il Secret Santa di:</h3>
-    <p class="text-center">{{ assignedUserEmail }}</p>
+    <p class="text-center">{{ assignedUserName || assignedUserEmail }}</p>
 
     <!-- Visualizza la lettera dell'utente assegnato -->
     <div *ngIf="assignedUserLetter" class="assigned-user-letter mt-3">
-      <h4 class="text-center">Lettera di {{ assignedUserEmail }}:</h4>
+      <h4 class="text-center">Lettera di {{ assignedUserName || assignedUserEmail }}:</h4>
       <p>{{ assignedUserLetter }}</p>
     </div>
 
     <!-- Visualizza l'immagine dell'utente assegnato -->
     <div *ngIf="assignedUserImageUrl" class="assigned-user-image mt-3 text-center">
-      <h4>Immagine di {{ assignedUserEmail }}:</h4>
+      <h4>Immagine di {{ assignedUserName || assignedUserEmail }}:</h4>
       <img [src]="assignedUserImageUrl" alt="Assigned User Image" class="assigned-image img-fluid">
     </div>
   </div>

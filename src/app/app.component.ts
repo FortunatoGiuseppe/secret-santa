@@ -9,7 +9,7 @@ import { HttpClientModuleStandalone } from './http-client.module';
 @Component({
   selector: 'app-root',
   standalone: true, // Componente standalone
-  imports: [RouterLink, RouterOutlet, CommonModule, FormsModule, HttpClientModuleStandalone], // Aggiungi RouterOutlet per supportare il router
+  imports: [RouterLink, RouterOutlet, CommonModule, FormsModule, HttpClientModuleStandalone ], // Aggiungi RouterOutlet per supportare il router
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })

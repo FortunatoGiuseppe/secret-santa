@@ -1,0 +1,18 @@
+/* Aggiungi eventuali stili personalizzati per il dialogo */
+.full-width {
+    width: 100%;
+  }
+  
+  .mat-dialog-actions {
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  .left-button {
+    margin-right: auto;
+  }
+  
+  .right-button {
+    margin-left: auto;
+  }
+  

@@ -1,10 +1,11 @@
-// src/app/wishlist/wishlist.component.ts
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { AuthService } from '../services/auth.service';
 import { FirebaseService } from '../services/firebase.service';
 import { FormsModule } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
+import { NameDialogComponent } from '../name-dialog/name-dialog.component'; // Importa il componente del dialogo
 
 @Component({
   selector: 'app-wishlist',
@@ -24,11 +25,13 @@ export class WishlistComponent implements OnInit {
   assignedUserEmail: string | null = null; // Email dell'utente assegnato
   assignedUserLetter: string | null = null; // Lettera dell'utente assegnato
   assignedUserImageUrl: string | null = null; // URL dell'immagine dell'utente assegnato
+  assignedUserName: string | null = null; // Nome dell'utente assegnato
 
   constructor(
     private http: HttpClient,
     private authService: AuthService,
-    private firebaseService: FirebaseService
+    private firebaseService: FirebaseService,
+    private dialog: MatDialog // Aggiungi il dialogo
   ) {}
 
   ngOnInit(): void {
@@ -38,6 +41,7 @@ export class WishlistComponent implements OnInit {
         this.loadImageUrl();
         this.loadLetterUrl();
         this.loadAssignedUser();
+        this.checkAndPromptForUserName(user.uid); // Controlla e richiedi il nome dell'utente se non presente
       }
     });
   }
@@ -117,12 +121,30 @@ export class WishlistComponent implements OnInit {
         const assignedUser = await this.firebaseService.getUserById(assignment.receiver);
         if (assignedUser) {
           this.assignedUserEmail = assignedUser.email;
+          this.assignedUserName = assignedUser.name; // Aggiungi il nome dell'utente assegnato
           this.assignedUserLetter = await this.firebaseService.getLetterContent(assignment.receiver);
           this.assignedUserImageUrl = await this.firebaseService.getImageUrl(assignment.receiver);
         }
       } else {
         this.assignedUserEmail = 'Nessun abbinamento trovato.';
       }
+    }
+  }
+
+  // Controlla e richiedi il nome dell'utente se non presente
+  async checkAndPromptForUserName(userId: string): Promise<void> {
+    const userName = await this.firebaseService.getUserName(userId);
+    if (!userName) {
+      const dialogRef = this.dialog.open(NameDialogComponent, {
+        width: '250px'
+      });
+
+      dialogRef.afterClosed().subscribe(async (name) => {
+        if (name) {
+          await this.firebaseService.saveUserName(userId, name);
+          console.log('Nome salvato:', name);
+        }
+      });
     }
   }
 }
