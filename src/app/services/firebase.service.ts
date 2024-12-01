@@ -123,4 +123,15 @@ export class FirebaseService {
       return null;
     }
   }
+
+    // Metodo per recuperare il nome dell'utente da Firestore
+    async getMyUserName(userId: string): Promise<string | null> {
+      const userDoc = doc(this.firestore, `users/${userId}`);
+      const docSnap = await getDoc(userDoc);
+      if (docSnap.exists()) {
+        return docSnap.data()['name'] || null;
+      } else {
+        return null;
+      }
+    }
 }

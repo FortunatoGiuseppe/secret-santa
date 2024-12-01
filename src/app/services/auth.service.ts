@@ -34,8 +34,9 @@ export class AuthService {
     try {
       const userCredential = await signInWithEmailAndPassword(this.firebaseService.auth, email, password);
       this.loggedInUser.next(userCredential.user);
+      const myUserName = await this.firebaseService.getMyUserName(userCredential.user.uid);
       const userName = await this.firebaseService.getUserName(userCredential.user.uid);
-      if (!userName) {
+      if (!myUserName) {
         const dialogRef = this.dialog.open(NameDialogComponent, {
           width: '250px'
         });

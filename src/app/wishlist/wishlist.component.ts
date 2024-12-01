@@ -42,10 +42,6 @@ export class WishlistComponent implements OnInit {
         this.loadImageUrl();
         this.loadLetterUrl();
         this.loadAssignedUser();
-        if (!this.dialogShown) {
-          this.checkAndPromptForUserName(user.uid); // Controlla e richiedi il nome dell'utente se non presente
-          this.dialogShown = true; // Imposta il flag a true dopo aver mostrato il dialogo
-        }
       }
     });
   }
@@ -132,22 +128,6 @@ export class WishlistComponent implements OnInit {
       } else {
         this.assignedUserEmail = 'Nessun abbinamento trovato.';
       }
-    }
-  }
-
-  // Controlla e richiedi il nome dell'utente se non presente
-  async checkAndPromptForUserName(userId: string): Promise<void> {
-    const userName = await this.firebaseService.getUserName(userId);
-    if (!userName) {
-      const dialogRef = this.dialog.open(NameDialogComponent, {
-      });
-
-      dialogRef.afterClosed().subscribe(async (name) => {
-        if (name) {
-          await this.firebaseService.saveUserName(userId, name);
-          console.log('Nome salvato:', name);
-        }
-      });
     }
   }
 }
