@@ -5,7 +5,7 @@ import { FirebaseService } from './firebase.service'; // Importa FirebaseService
 import { Observable, BehaviorSubject } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { MatDialog } from '@angular/material/dialog';
-import { NameDialogComponent } from '../name-dialog/name-dialog.component'; // Importa il componente del dialogo
+import { NameDialogComponent } from '../name-dialog/name-dialog.component';
 
 @Injectable({
   providedIn: 'root'

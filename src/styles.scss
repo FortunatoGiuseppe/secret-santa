@@ -122,15 +122,16 @@ h2 {
 
 .letter-textarea {
   width: 100%;
-  height: 400px; /* Altezza predefinita aumentata */
+  height: 300px !important; /* Altezza aumentata con !important */
   margin-bottom: 20px;
-  resize: vertical; /* Permette il ridimensionamento verticale */
+  resize: vertical; /* Disabilita il ridimensionamento */
   font-family: 'Mountains of Christmas', cursive;
   font-size: 1.2rem;
   padding: 10px;
   border: 2px solid $primary-color;
   border-radius: 5px;
 }
+
 
 .uploaded-image-container {
   margin-bottom: 10px;
